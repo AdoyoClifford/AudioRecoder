@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.MediaRecorder
 import android.os.Build
 import java.io.File
+import java.io.FileOutputStream
 
 class AudioRecorderImpl(
     private val context: Context
@@ -18,11 +19,22 @@ class AudioRecorderImpl(
         }
     }
     override fun start(outPutFile: File) {
+        createRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            setOutputFile(FileOutputStream(outPutFile).fd)
 
+            prepare()
+            start()
+            recorder = this
+        }
     }
 
     override fun stop() {
-        TODO("Not yet implemented")
+        recorder?.stop()
+        recorder?.reset()
+        recorder = null
     }
 
 }
