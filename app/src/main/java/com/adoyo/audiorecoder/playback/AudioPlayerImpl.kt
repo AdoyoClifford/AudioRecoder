@@ -10,7 +10,7 @@ class AudioPlayerImpl(
 ): AudioPlayer {
 
     private var player: MediaPlayer? = null
-    override fun play(file: File) {
+    override fun playFile(file: File) {
         MediaPlayer.create(context,file.toUri()).apply {
             player = this
             start()
